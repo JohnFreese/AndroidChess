@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">android51</string>
+    <string name="wturn">Whites Turn</string>
+    <string name="bturn">Blacks Turn</string>
+    <string name="chess_play">Play Chess</string>
+    <string name="chess_recorded">Watch Recording</string>
+    <string name="undo_button">UNDO</string>
+    <string name="ai_button">AI</string>
+    <string name="draw_button">DRAW</string>
+    <string name="resign_button">RESIGN</string>
+    <string name="message_invalid">Invalid Move</string>
+    <string name="a_file">a</string>
+    <string name="b_file">b</string>
+    <string name="c_file">c</string>
+    <string name="d_file">d</string>
+    <string name="e_file">e</string>
+    <string name="f_file">f</string>
+    <string name="g_file">g</string>
+    <string name="h_file">h</string>
+    <string name="one_file">1</string>
+    <string name="two_file">2</string>
+    <string name="three_file">3</string>
+    <string name="four_file">4</string>
+    <string name="five_file">5</string>
+    <string name="six_file">6</string>
+    <string name="seven_file">7</string>
+    <string name="eight_file">8</string>
+    <string name="info_txt">Info Panel</string>
+</resources>
