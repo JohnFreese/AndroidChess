@@ -1,23 +1,23 @@
 package main.android51;
 
-        import android.app.Activity;
-        import android.graphics.drawable.Drawable;
-        import android.os.Bundle;
-        import android.view.View;
-        import android.util.Log;
-        import android.widget.ImageView;
-        import android.widget.TextView;
+import android.app.Activity;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.view.View;
+import android.util.Log;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-        import java.util.List;
-        import java.util.stream.Collectors;
-        import java.lang.reflect.Array;
-        import java.util.ArrayList;
-        import java.util.Arrays;
-        import java.util.Collections;
-        import android.content.Intent;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import android.content.Intent;
 
-        import chess.Grid;
-        import chess.Pieces.*;
+import chess.Grid;
+import chess.Pieces.*;
 
 public class ChessGame extends Activity {
 
