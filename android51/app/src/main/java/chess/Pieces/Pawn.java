@@ -27,29 +27,29 @@ public class Pawn extends Piece implements Serializable{
         }
 
         if (!start.piece.moved) {
-            if (Grid.mapToSpace(row + offset, column).piece == null
-                    && Grid.mapToSpace(row + 2*offset, column).piece == null) {
+            if (Grid.isInBounds(row + offset, column) & Grid.mapToSpace(row + offset, column).piece == null
+                    && Grid.isInBounds(row + 2*offset, column) && Grid.mapToSpace(row + 2*offset, column).piece == null) {
                 moves.add(Grid.mapToSpace(row + 2*offset, column));
             }
         }
 
-        if (Grid.mapToSpace(row + offset, column).piece == null) {
+        if (Grid.isInBounds(row + offset, column) && Grid.mapToSpace(row + offset, column).piece == null) {
             moves.add(Grid.mapToSpace(row + offset, column));
         }
 
         if (start.column == 'a') {
-            if (Grid.mapToSpace(row, column + 1).piece != null && Grid.mapToSpace(row, column + 1).piece.owner != start.piece.owner) {
-                moves.add(Grid.mapToSpace(row, column + 1));
-            }
-        } else if (start.column == 'h') {// check if pawn is in column h
-            if (Grid.mapToSpace(row, column - 1).piece != null && Grid.mapToSpace(row, column - 1).piece.owner != start.piece.owner) {
-                moves.add(Grid.mapToSpace(row, column - 1));
-            }
-        } else {
-            if (Grid.mapToSpace(row + offset, column + 1).piece != null && Grid.mapToSpace(row + offset, column + 1).piece.owner != start.piece.owner) {
+            if (Grid.isInBounds(row + offset, column +1) && Grid.mapToSpace(row + offset, column + 1).piece != null && Grid.mapToSpace(row + offset, column + 1).piece.owner != start.piece.owner) {
                 moves.add(Grid.mapToSpace(row + offset, column + 1));
             }
-            if (Grid.mapToSpace(row + offset, column - 1).piece != null && Grid.mapToSpace(row + offset, column - 1).piece.owner != start.piece.owner) {
+        } else if (start.column == 'h') {// check if pawn is in column h
+            if (Grid.isInBounds(row + offset, column - 1) && Grid.mapToSpace(row + offset, column - 1).piece != null && Grid.mapToSpace(row + offset, column - 1).piece.owner != start.piece.owner) {
+                moves.add(Grid.mapToSpace(row + offset, column - 1));
+            }
+        } else {
+            if (Grid.isInBounds(row + offset, column +1) && Grid.mapToSpace(row + offset, column + 1).piece != null && Grid.mapToSpace(row + offset, column + 1).piece.owner != start.piece.owner) {
+                moves.add(Grid.mapToSpace(row + offset, column + 1));
+            }
+            if (Grid.isInBounds(row + offset, column - 1) && Grid.mapToSpace(row + offset, column - 1).piece != null && Grid.mapToSpace(row + offset, column - 1).piece.owner != start.piece.owner) {
                 moves.add(Grid.mapToSpace(row + offset, column - 1));
             }
         }

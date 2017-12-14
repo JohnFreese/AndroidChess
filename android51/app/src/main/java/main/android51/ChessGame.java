@@ -5,6 +5,7 @@ package main.android51;
         import android.os.Bundle;
         import android.view.View;
         import android.util.Log;
+        import android.widget.GridLayout;
         import android.widget.ImageView;
         import android.widget.TextView;
 
@@ -51,6 +52,8 @@ public class ChessGame extends Activity {
     ArrayList<Grid.Space[]> allmoves;
     Boolean draw;
 
+    private GridLayout gl;
+    private  ImageView[][] views;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +92,22 @@ public class ChessGame extends Activity {
         turnPanel = findViewById(R.id.textView_player_turn);
         allmoves = new ArrayList<Grid.Space[]>();
         draw = false;
+
+        gl = findViewById(R.id.g_chess);
+        ArrayList<ImageView> iview = new ArrayList<>();
+        for (int i = 0; i < gl.getChildCount(); i++) {
+            if (gl.getChildAt(i) instanceof  ImageView) {
+                iview.add((ImageView) gl.getChildAt(i));
+            }
+        }
+
+        views = new ImageView[8][8];
+
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                views[i][j] = iview.get(8*i + j);
+            }
+        }
     }
 
     public void onSpaceClick(View space) {
@@ -251,13 +270,106 @@ public class ChessGame extends Activity {
     }
 
     public void ai_clicked(View view) {
-        Arrays.stream(Grid.board)
+        Grid.Space[] moveset = Arrays.stream(Grid.board)
                 .flatMap(Arrays::stream)
-                .filter(s -> s.piece != null && !(Grid.isMyPiece(current_player, s)))
-                .filter(s -> true)
-                .map(s -> true)
+                .filter(s -> s.piece != null && Grid.isMyPiece(current_player, s))
+                .map(s -> mapSpaceToPair(s))
+                .flatMap(al -> al.stream())
+                .filter(p -> !Grid.illegalMove(p[0], p[1]))
                 .findAny()
-                .orElse(false);
+                .orElse(null);
+
+
+
+        if (moveset != null) {
+            apply_moveset(moveset);
+        }
+    }
+
+    private void apply_moveset(Grid.Space[] pair) {
+        Grid.Space start = pair[0];
+        Grid.Space destination = pair[1];
+
+        start_view = mapSpaceToImage(start.row, start.column);
+        destination_view = mapSpaceToImage(destination.row, destination.column);
+
+        Grid.movePiece(start, destination, current_player, isInCheck());
+        most_recent_img = destination_view.getDrawable();
+        most_recent_move[0] = start;
+        most_recent_move[1] = destination;
+        most_recent_piece = placeholder_piece;
+        most_recent_views[0] = start_view;
+        most_recent_views[1] = destination_view;
+        most_recent_piece_first_move = placeholder_moved;
+
+        Grid.Space[] moves = {start, destination};
+        allmoves.add(moves);
+
+        infoPanel.setText(current_player + " " + firstEntry[0] + firstEntry[1] + " " + secondEntry[0] +secondEntry[1]);
+
+        destination_view.setImageDrawable(start_view.getDrawable());
+        start_view.setImageDrawable(null);
+
+        if (current_player == 'w') {
+            Grid.wKingCheck[0] = null;
+            Grid.wKingCheck[1] = null;
+            current_player = 'b';
+            turnPanel.setText("Blacks Turn");
+
+            if (Grid.bKingCheck[0] != null) {
+                infoPanel.setText("bking in check");
+                wasInCheck_black = true;
+                most_recent_check_piece_black = Grid.bKingCheck[0];
+            }
+            else {
+                wasInCheck_black = false;
+            }
+        }
+        else {
+            Grid.bKingCheck[0] = null;
+            Grid.bKingCheck[1] = null;
+            current_player = 'w';
+            turnPanel.setText("Whites Turn");
+
+            if (Grid.wKingCheck[0] != null) {
+                infoPanel.setText("wking in check");
+                wasInCheck_white = true;
+                most_recent_check_piece_black = Grid.wKingCheck[0];
+            }
+            else {
+                wasInCheck_white = false;
+            }
+        }
+
+        if (isGameOver()) {
+            if (current_player == 'w') {
+                GameOver("Black Wins");
+            }
+            else {
+                GameOver("White Wins");
+            }
+        }
+        firstEntry[0] = '\0';
+        firstEntry[1] = '\0';
+        secondEntry[0] = '\0';
+        secondEntry[1] = '\0';
+    }
+
+    private ImageView mapSpaceToImage(int row, int column) {
+//        Log.i("INFO", "row: " + row + " column: " + column +
+//                "\n8- " + (8-row) + " c-97 " + (column-97));
+        return views[8 - row][column - 97];
+    }
+
+    private ArrayList<Grid.Space[]> mapSpaceToPair(Grid.Space start) {
+        return start.piece.getMoves(start).stream()
+                .map(d -> {
+                    Grid.Space[] pair = new Grid.Space[2];
+                    pair[0] = start;
+                    pair[1] = d;
+                    return pair;
+                })
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     public void draw_clicked(View view) {
