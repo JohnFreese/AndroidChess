@@ -13,10 +13,6 @@ import java.util.ArrayList;
 
 import chess.Grid;
 
-/**
- * Created by Shay on 12/13/2017.
- */
-
 public class RecordedList extends Activity {
     public static final String GAME = "GAME";
     public static final String GAMES = "GAMES";
