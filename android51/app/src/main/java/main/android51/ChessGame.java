@@ -49,6 +49,7 @@ public class ChessGame extends Activity {
     TextView infoPanel;
     TextView turnPanel;
     ArrayList<Grid.Space[]> allmoves;
+    Boolean draw;
 
 
     @Override
@@ -87,6 +88,7 @@ public class ChessGame extends Activity {
         infoPanel = findViewById(R.id.textView_message);
         turnPanel = findViewById(R.id.textView_player_turn);
         allmoves = new ArrayList<Grid.Space[]>();
+        draw = false;
     }
 
     public void onSpaceClick(View space) {
@@ -249,21 +251,30 @@ public class ChessGame extends Activity {
     }
 
     public void ai_clicked(View view) {
-
+        Arrays.stream(Grid.board)
+                .flatMap(Arrays::stream)
+                .filter(s -> s.piece != null && !(Grid.isMyPiece(current_player, s)))
+                .filter(s -> true)
+                .map(s -> true)
+                .findAny()
+                .orElse(false);
     }
 
     public void draw_clicked(View view) {
-        GameOver("Draw");
+        if (!draw) {
+            draw = true;
+        }
+        else {
+            GameOver("Draw");
+        }
     }
 
     public void resign_clicked(View view) {
-        if (isGameOver()) {
-            if (current_player == 'w') {
-                GameOver("Black Wins");
-            }
-            else {
-                GameOver("White Wins");
-            }
+        if (current_player == 'w') {
+            GameOver("Black Wins");
+        }
+        else {
+            GameOver("White Wins");
         }
     }
 

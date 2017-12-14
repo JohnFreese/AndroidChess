@@ -30,9 +30,10 @@
             android:text="Play"/>
 
         <Button
-            android:id="@+id/recordedGamesB"
+            android:id="@+id/recorded_games_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="r_games_button_click"
             android:textSize="20sp"
             android:text="Recorded Games" />
 

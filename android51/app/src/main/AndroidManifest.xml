@@ -23,6 +23,12 @@
         <activity
             android:name="main.android51.GameOver"
             android:label="@string/app_name" />
+        <activity
+            android:name="main.android51.PlayRecorded"
+            android:label="@string/app_name" />
+        <activity
+            android:name="main.android51.RecordedList"
+            android:label="@string/app_name" />
     </application>
 
 </manifest>
